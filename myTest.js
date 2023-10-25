@@ -119,9 +119,13 @@ const challengedLogin = async () => {
  * historical try
  * - try all methods and got "challenge required" as result
  * - "challenge required" issue : I found a lots of issue, the most interesting one is https://github.com/dilame/instagram-private-api/issues/1637#issuecomment-1194940480
- * - so open insta with browser : ask 2FA + sms code confirmation done / then next update password with a fresh one
- * - then next basicLogin give me : 400 Bad Request; The password you entered is incorrect
+ * - so open insta with browser :
+ * - > ig ask 2FA + sms code confirmation done / then update password with a fresh one
+ * - > then next basicLogin give me : 400 Bad Request; The password you entered is incorrect
  *  (maybe updated password not well/directly replicated.. need to test again next time)
+ * - add more logs on request.js l54 : give me challenge.url in login response.body :
+ * - > try challenge.url in browser: ig ask me if login attempt was me and request password change,
+ * - > then next attempt I got "400 Bad Request; The password you entered is incorrect" with fresh password
  */
 
 await basicLogin();
