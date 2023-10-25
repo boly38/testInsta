@@ -1,0 +1,17 @@
+{
+  "type": "module",
+  "dependencies": {
+    "bluebird": "^3.7.1",
+    "inquirer": "^9.2.11",
+    "instagram-private-api": "^1.45.3"
+  },
+  "name": "testinsta",
+  "version": "1.0.0",
+  "main": "myTest.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
