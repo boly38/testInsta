@@ -154,6 +154,7 @@ const homepageLogin = async () => {
  *
  * - homepageLogin with recommended pre/post login flow: got "401 Unauthorized; Please wait a few minutes before you try again."
  * ==> read this IG behavior REX for banned IPs : https://stealthoptional.com/apps/please-wait-a-few-minutes-before-you-try-again-instagram-fix/
+ * - > also tried from another origin IP: got same "401 Unauthorized; Please wait a few minutes before you try again."
  */
 
 const wanted = process.argv[2] ? process.argv[2] : "help";
