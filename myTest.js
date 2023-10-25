@@ -153,6 +153,7 @@ const homepageLogin = async () => {
  * - > then next attempt I got "400 Bad Request; The password you entered is incorrect" with fresh password
  *
  * - homepageLogin with recommended pre/post login flow: got "401 Unauthorized; Please wait a few minutes before you try again."
+ * ==> read this IG behavior REX for banned IPs : https://stealthoptional.com/apps/please-wait-a-few-minutes-before-you-try-again-instagram-fix/
  */
 
 const wanted = process.argv[2] ? process.argv[2] : "help";
