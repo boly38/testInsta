@@ -43,7 +43,7 @@ const basicLogin = async (subscribeBackAllFollowers = false) => {
 
 // inspired from // https://github.com/dilame/instagram-private-api/blob/master/examples/2fa-sms-login.example.ts
 // Return logged in user object
-const oauth2Try = async ()  => {
+const oauth2 = async ()  => {
     console.log("oauth2Try");
     // Initiate Instagram API client
     const ig = new IgApiClient();
@@ -115,20 +115,52 @@ const challengedLogin = async () => {
     }).catch(e => console.log('Could not resolve checkpoint:', e, e.stack));
 };
 
+
+// inspired from // https://github.com/dilame/instagram-private-api (main readme)
+const homepageLogin = async () => {
+    console.log(`homepageLogin`);
+    const ig = new IgApiClient();
+    // You must generate device id's before login.
+    // Id's generated based on seed
+    // So if you pass the same value as first argument - the same id's are generated every time
+    ig.state.generateDevice(process.env.IG_USERNAME);
+
+    // Execute all requests prior to authorization in the real Android application
+    // Not required but recommended
+    await ig.simulate.preLoginFlow();
+    const loggedInUser = await ig.account.login(process.env.IG_USERNAME, process.env.IG_PASSWORD);
+    // The same as preLoginFlow()
+    // Optionally wrap it to process.nextTick so we dont need to wait ending of this bunch of requests
+    process.nextTick(async () => await ig.simulate.postLoginFlow());
+    // Create UserFeed instance to get loggedInUser's posts
+    const userFeed = ig.feed.user(loggedInUser.pk);
+    const myPostsFirstPage = await userFeed.items();
+    console.log(myPostsFirstPage);
+};
+
 /**
  * historical try
  * - try all methods and got "challenge required" as result
  * - "challenge required" issue : I found a lots of issue, the most interesting one is https://github.com/dilame/instagram-private-api/issues/1637#issuecomment-1194940480
- * - so open insta with browser :
+ *
+ * - so open IG with browser :
  * - > ig ask 2FA + sms code confirmation done / then update password with a fresh one
  * - > then next basicLogin give me : 400 Bad Request; The password you entered is incorrect
  *  (maybe updated password not well/directly replicated.. need to test again next time)
- * - add more logs on request.js l54 : give me challenge.url in login response.body :
- * - > try challenge.url in browser: ig ask me if login attempt was me and request password change,
+ *
+ * - basicLogin: add more logs on request.js l54 : give me challenge.url in login response.body :
+ * - > try challenge.url in browser: IG ask me if login attempt was me and request password change,
  * - > then next attempt I got "400 Bad Request; The password you entered is incorrect" with fresh password
+ *
+ * - homepageLogin with recommended pre/post login flow: got "401 Unauthorized; Please wait a few minutes before you try again."
  */
 
-await basicLogin();
-// await oauth2Try();
-// await challengedLogin();
-
+const wanted = process.argv[2] ? process.argv[2] : "help";
+const help = () => console.log("please choose : basic, oauth2, challenge, home");
+switch (wanted) {
+    case "basic": await basicLogin(); break;
+    case "oauth2": await oauth2(); break;
+    case "challenge": await challengedLogin(); break;
+    case "home": await homepageLogin(); break;
+    case "help": default: help();
+}

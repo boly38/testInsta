@@ -6,7 +6,11 @@ try to post on instagram using https://github.com/dilame/instagram-private-api
 
 ## HowTo
 ````bash
+git clone https://github.com/boly38/testInsta.git
+cd testInsta
+npm install
 export IG_USERNAME=toto
 export IG_PASSWORD=tataboumX
-node myTest
+node myTest help
+node myTest home
 ````
