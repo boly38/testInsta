@@ -23,3 +23,7 @@ unset IG_USERNAME IG_PASSWORD
 # alternative to export
 IG_USERNAME=toto IG_PASSWORD=tataboumX node myTest home
 ````
+
+---
+
+See also (success) [testFB](https://github.com/boly38/testFB)
